@@ -1,25 +1,47 @@
 class TetrisBlocks
 {
-    TetrisBlocks(PVector position, int size)
+    TetrisBlocks(PVector position, int size, int leftwall, int rightwall, int bottom)
   {
     this.size = size;
     this.position = position;
     float r = random(50);
     this.blockcolor = color(r);
+    this.rightwall = rightwall;
+    this.leftwall = leftwall;
+    this.bottom = bottom;
   }
+  
+  boolean collide(PVector position)
+{
+ return PVector.dist(position, this.position) < this.size;
+}
   
   void draw()
 {
+  fill(255, 255, 255);
   rect(position.x, position.y, size, size);
-  position.y++;
+  
+  if(bottom > this.position.y + this.size)
+      position.y++;
 }
-PVector getPosition(){return position;}
+PVector getPosition(){return this.position;}
 
-void goRight(){position.x-=size;}
+void goRight()
+{
+  if(position.x > rightwall)
+    position.x-=size;
+}
 
-void goLeft(){position.x+=size;}
+void goLeft()
+{
+  if(position.x < leftwall)
+      position.x+=size;
+}
   
   PVector position;
   color blockcolor;
   int size;
+  int leftwall;
+  int rightwall;
+  int bottom;
 }

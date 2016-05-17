@@ -11,10 +11,8 @@ class AI
   this.direction = direction;
   this.rightwall = rightwall;
   this.leftwall = leftwall;
-  r = random(255);
-  g = random(255);
-  b = random(255);
-  
+  float r = random(2);
+  aicolor = new Color((int)r);
   //-- moves the target in a certain direction
   if(start)
     move = 2;
@@ -50,20 +48,20 @@ PVector getPosition(){return this.position;}
 //-- the player cannot get a match.
 void makeDecision()
 {
-  if(r < r1)
-    r = 0;
+  if(aicolor.getR() < r1)
+    aicolor.setR(100.0);
     else
-    r = 0;
+    aicolor.setR(100.0);
     
-  if(g < g1)
-    g = 0;
+  if(aicolor.getG() < g1)
+    aicolor.setR(100.0);
   else
-    g = 0;
+    aicolor.setR(100.0);
     
-  if(b < b1)
-    b = 0;
+  if(aicolor.getB() < b1)
+    aicolor.setR(100.0);
     else
-    b =0;
+    aicolor.setR(100.0);
 
 }
 
@@ -72,9 +70,9 @@ ArrayList<PVector> getBullet(){return bullet;}
 //-- get the color from this class.
 //-- used to make sure the tetis block
 //-- and turn to this color.
-float colorR(){return r;}
-float colorG(){return g;}
-float colorB(){return b;}
+float colorR(){return aicolor.getR();}
+float colorG(){return aicolor.getG();}
+float colorB(){return aicolor.getB();}
 
 //-- set the color of the ai.
 void setColor(float r1, float g1, float b1)
@@ -104,7 +102,7 @@ void draw(PVector tetrisblock)
     for(int i = 0; i < bullet.size();i++)
     {
       //-- visual representation of the bullet.
-        fill(r, g, b);
+        fill(aicolor.getR(), aicolor.getG(), aicolor.getB());
         ellipse(bullet.get(i).x,bullet.get(i).y, 10,10);
         
         //-- bullets shoot in the right direction
@@ -126,8 +124,8 @@ void draw(PVector tetrisblock)
 }
 
 //-- variables
+Color aicolor;
 PVector position;
-float r, g, b;
 float r1, g1, b1;
 ArrayList<PVector> bullet;
 boolean start;

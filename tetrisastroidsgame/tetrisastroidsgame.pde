@@ -20,6 +20,7 @@ int grid_size = 10;
 int leftwallbound = 40;
 ObstacleBlock obstacle;
 ObstacleBlock obstacle2;
+ObstacleBlock obstacle3;
 ArrayList<TetrisBlocks> blocks;
 int rightwallbound = max_x - (leftwallbound + 10);
 
@@ -44,6 +45,7 @@ void setup()
   block = new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y);
   obstacle = new ObstacleBlock(new PVector(leftwallbound + random(10,60), random(200,450), 0), 10);
   obstacle2 = new ObstacleBlock(new PVector(rightwallbound - random(10,60), random(200,450), 0), 10);
+  obstacle3 = new ObstacleBlock(new PVector(leftwallbound + random(10,60), random(200,450), 0), 10);
   collide = new Collide();
   blocks = new ArrayList();
   blocks.add(block);
@@ -83,6 +85,7 @@ void draw()
     airight.draw(blocks.get(blocks.size()-1).getPosition());
     obstacle.draw();
     obstacle2.draw();
+    obstacle3.draw();
     
     //--drawing all the blocks
     for (int i = 0; i < blocks.size(); i++){
@@ -95,7 +98,7 @@ void draw()
             //--comparing the last block with all the previous blocks
             for (int i = 0; i < blocks.size()-1; i++){
             
-              if(collide.collide(blocks.get(blocks.size()-1).getPosition(), blocks.get(i).getTopPosition(), 15)){
+              if(collide.collide(blocks.get(blocks.size()-1).getLowestPosition(), blocks.get(i).getTopPosition(), 10)){
                 //--if collided, the current block stops and generate a new block
                 blocks.get(blocks.size()-1).stop();
                 score += 10;

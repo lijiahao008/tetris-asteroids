@@ -4,11 +4,10 @@ class TetrisBlocks
   {
     this.size = size;
     this.position = position;
-    r = random(255);
-    g = random(255);
-    b = random(255);
-    float pickblock = random(-1,2);
-    createBlocks((int)pickblock);
+    float r = random(2);
+    bulletColor = new Color((int)r);
+    //float pickblock = random(2);
+    createBlocks(int(random(2)));
     this.rightwall = rightwall;
     this.leftwall = leftwall;
     this.floor = floor;
@@ -17,7 +16,7 @@ class TetrisBlocks
   //-- draws the tetris block.
   void draw()
 {
-  fill(r,g,b);
+  fill(bulletColor.getR(),bulletColor.getG(),bulletColor.getB());
   //-- draws the rectangle.
   for(int i = 0; i < 3; i++)
   {
@@ -27,7 +26,7 @@ class TetrisBlocks
   if(!stopped_var){
     if(floor > this.blocks[lowestpoint].y + this.size)
       this.blocks[i].y++;
-    else if (floor<= this.blocks[lowestpoint].y + 2*this.size)
+    else if (floor<= this.blocks[lowestpoint].y + this.size)
        stop();
   }  
 }
@@ -50,7 +49,7 @@ void createBlocks(int i)
     //-- create the shape above for tetris piece.
     blocks[0] = new PVector(position.x + size, position.y, 0);
     blocks[1] = new PVector(position.x + size , position.y + size ,0);
-    blocks[2] = new PVector(position.x + (size * 2), position.y , 0);
+    blocks[2] = new PVector(position.x + (2 * size), position.y , 0);
     //-- block #1 is the lowest point of the shape.
     lowestpoint = 1;
     rightmostpoint = 2;
@@ -94,6 +93,10 @@ void createBlocks(int i)
 
 //-- get the blocks location.
 PVector getPosition(){return this.blocks[lowestpoint];}
+
+
+
+PVector getLowestPosition(){return new PVector(this.blocks[lowestpoint].x,this.blocks[lowestpoint].y + this.size,this.blocks[lowestpoint].z) ;}
 
 PVector getTopPosition(){return this.blocks[topmost];}
 
@@ -148,21 +151,22 @@ boolean stopped()
 }
 
 //-- get the color from this class.
-float colorR(){return r;}
-float colorG(){return g;}
-float colorB(){return b;}
+float colorR(){return bulletColor.getR();}
+float colorG(){return bulletColor.getG();}
+float colorB(){return bulletColor.getB();}
 
 //-- set the color of the tetris block.
 void setColor(float r1, float g1, float b1)
 { 
-this.r = r1;
-this.g = g1;
-this.b = b1;
+this.bulletColor.setR(r1);
+this.bulletColor.setG(g1);
+this.bulletColor.setB(b1);
 }
   
   PVector position;
   PVector[] blocks = new PVector[3];
   color blockcolor;
+  Color bulletColor;
   int size;
   int leftwall;
   int rightwall;
@@ -172,5 +176,5 @@ this.b = b1;
   int topmost;
   int floor;
   boolean stopped_var = false;
-  float r, r1, b, b1, g, g1;
+  float  r1,  b1,  g1;
 }

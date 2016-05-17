@@ -23,6 +23,8 @@ class TetrisBlocks
   
   if(bottom > this.position.y + this.size)
       position.y++;
+  
+      
 }
 PVector getPosition(){return this.position;}
 
@@ -38,6 +40,22 @@ void goLeft()
       position.x+=size;
 }
   
+  
+void goDown()
+{
+      position.y+=size;
+}
+
+boolean stopped()
+{
+    if(bottom <= this.position.y + this.size){
+      position.x = position.x;
+      position.y = bottom - this.size;
+      return true;
+    } 
+    else
+      return false;
+}
   PVector position;
   color blockcolor;
   int size;

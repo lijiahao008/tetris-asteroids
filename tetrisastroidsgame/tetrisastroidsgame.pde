@@ -27,7 +27,8 @@ void setup()
   airight = new AI(new PVector(rightwallbound, max_y - 40, 0), 10, max_y, 0, true, false, leftwallbound, rightwallbound);
   block = new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y);
   obstacle = new ObstacleBlock(new PVector(leftwallbound + 40, 450, 0), 10);
-
+  blocks = new ArrayList();
+  blocks.add(block);
 }
 
 void draw()
@@ -57,9 +58,24 @@ void draw()
   airight.getActiveTarget(block.getPosition());
   aileft.draw(block.getPosition());
   airight.draw(block.getPosition());
-  block.draw();
   obstacle.draw();
+  
+  if (blocks.get(blocks.size()-1).stopped()){
+    score += 10;
+    blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
+  }
+
+  
+  for (int i = 0; i < blocks.size(); i++){
+    blocks.get(i).draw();
+  }
   println("collide : " + obstacle.collide(block.getPosition()));
+  
+  if (obstacle.collide(blocks.get(blocks.size()-1).getPosition())){
+    score -= 10;
+    blocks.remove(blocks.get(blocks.size()-1));
+    blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );  
+}
 }
 
 void keyPressed() 
@@ -67,9 +83,12 @@ void keyPressed()
   if (key == CODED) 
   {
     if (keyCode == RIGHT) 
-      block.goLeft();
+      blocks.get(blocks.size()-1).goLeft();
       
     if (keyCode == LEFT) 
-      block.goRight();
+      blocks.get(blocks.size()-1).goRight();
+  
+    if (keyCode == DOWN) 
+      blocks.get(blocks.size()-1).goDown();
   }
 }

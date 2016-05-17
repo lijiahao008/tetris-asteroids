@@ -7,7 +7,7 @@ class TetrisBlocks
     r = random(255);
     g = random(255);
     b = random(255);
-    float pickblock = random(2);
+    float pickblock = random(-1,2);
     createBlocks((int)pickblock);
     this.rightwall = rightwall;
     this.leftwall = leftwall;
@@ -27,7 +27,7 @@ class TetrisBlocks
   if(!stopped_var){
     if(floor > this.blocks[lowestpoint].y + this.size)
       this.blocks[i].y++;
-    else if (floor< this.blocks[lowestpoint].y + 2*this.size)
+    else if (floor<= this.blocks[lowestpoint].y + 2*this.size)
        stop();
   }  
 }
@@ -94,6 +94,8 @@ void createBlocks(int i)
 
 //-- get the blocks location.
 PVector getPosition(){return this.blocks[lowestpoint];}
+
+PVector getTopPosition(){return this.blocks[topmost];}
 
 //-- makes the block go right until it hits the end of the wall.
 void goRight()

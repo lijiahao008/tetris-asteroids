@@ -1,4 +1,5 @@
 //-- Ernst Natahniel blanchard
+//-- Jiahao Li
 //-- Date  May 16, 2016
 //-- Game Design Project
 AI aileft;
@@ -94,7 +95,7 @@ void draw()
             //--comparing the last block with all the previous blocks
             for (int i = 0; i < blocks.size()-1; i++){
             
-              if(collide.collide(blocks.get(blocks.size()-1).getPosition(), blocks.get(i).getPosition(), 15)){
+              if(collide.collide(blocks.get(blocks.size()-1).getPosition(), blocks.get(i).getTopPosition(), 15)){
                 //--if collided, the current block stops and generate a new block
                 blocks.get(blocks.size()-1).stop();
                 score += 10;
@@ -105,8 +106,8 @@ void draw()
     
           //--if the current block stopped then add 10 points and a new block
           if (blocks.get(blocks.size()-1).stopped()){
-          score += 10;
-          blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
+            score += 10;
+            blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
           }
     
           //--Detects obstacle collision

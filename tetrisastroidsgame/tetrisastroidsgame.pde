@@ -82,28 +82,38 @@ void draw()
     airight.draw(blocks.get(blocks.size()-1).getPosition());
     obstacle.draw();
     obstacle2.draw();
+    
+    //--drawing all the blocks
     for (int i = 0; i < blocks.size(); i++){
       blocks.get(i).draw();
     }
-  
-    if(blocks.size()>2){
-    for (int i = 0; i < blocks.size()-1; i++){
-      if(collide.collide(blocks.get(blocks.size()-1).getPosition(), blocks.get(i).getPosition(), 15)){
-        blocks.get(blocks.size()-1).stop();
-        blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
-        println("collide");
-      }
-    }
-    }
-     if (blocks.get(blocks.size()-1).stopped()){
-      score += 10;
-      blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
-    }
     
-    if(collide.collide(blocks.get(blocks.size()-1).getPosition(), obstacle.getPosition(), 20))
-          lose = true;
-     if(collide.collide(blocks.get(blocks.size()-1).getPosition(), obstacle2.getPosition(), 20))
-          lose = true;
+          //--detecting if the current block is on top of any blocks
+          //--only start comparing when there are two more blocks in the array
+          if(blocks.size()>=2){
+            //--comparing the last block with all the previous blocks
+            for (int i = 0; i < blocks.size()-1; i++){
+            
+              if(collide.collide(blocks.get(blocks.size()-1).getPosition(), blocks.get(i).getPosition(), 15)){
+                //--if collided, the current block stops and generate a new block
+                blocks.get(blocks.size()-1).stop();
+                score += 10;
+                blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
+              }
+            }
+          }
+    
+          //--if the current block stopped then add 10 points and a new block
+          if (blocks.get(blocks.size()-1).stopped()){
+          score += 10;
+          blocks.add(new TetrisBlocks(new PVector(((rightwallbound - leftwallbound) / 2), 60, 0), 10, rightwallbound, leftwallbound, max_y) );
+          }
+    
+          //--Detects obstacle collision
+          if(collide.collide(blocks.get(blocks.size()-1).getPosition(), obstacle.getPosition(), 20))
+                lose = true;
+          if(collide.collide(blocks.get(blocks.size()-1).getPosition(), obstacle2.getPosition(), 20))
+                lose = true;
           
           //-- if the player is hit by a bullet from the ai on the left then
           //--
@@ -127,10 +137,14 @@ void draw()
             }
           }
    }
+   
+   //--scoreing rules
    if(score >= 100)
      win = true;
    else if (score < 0)
      lose = true;
+   
+   //--wining and losing screen
    if(win)
    {
          fill(255,255,255);
@@ -147,6 +161,7 @@ void draw()
    }
 }
 
+//--key controls
 void keyPressed() 
 {
   if (key == CODED) 

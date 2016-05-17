@@ -24,7 +24,7 @@ class TetrisBlocks
     rect(blocks[i].x, blocks[i].y, size, size);
   //-- makes sure the block hits the bottom of the screen or the top of
   //-- another tetris piece.
-  if(stopped_var == false){
+  if(!stopped_var){
     if(floor > this.blocks[lowestpoint].y + this.size)
       this.blocks[i].y++;
     else if (floor< this.blocks[lowestpoint].y + 2*this.size)
